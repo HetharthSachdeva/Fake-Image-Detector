@@ -9,10 +9,12 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_sc
 from model import FakeImageDetector
 from data_loader import get_data_loaders
 from utils import save_model, plot_training_metrics
+from adversarial import fgsm_attack, pgd_attack
 
-def train_model(data_dir, num_epochs=30, batch_size=64, learning_rate=0.001, save_dir='weights'):
+def train_model(data_dir, num_epochs=30, batch_size=64, learning_rate=0.001, 
+                save_dir='weights', adversarial_training=True, epsilon=0.03):
     """
-    Train the fake image detection model.
+    Train the fake image detection model with optional adversarial training.
     
     Args:
         data_dir: Directory containing the dataset
@@ -20,6 +22,8 @@ def train_model(data_dir, num_epochs=30, batch_size=64, learning_rate=0.001, sav
         batch_size: Batch size for training
         learning_rate: Learning rate for optimizer
         save_dir: Directory to save model weights
+        adversarial_training: Whether to use adversarial examples during training
+        epsilon: Perturbation strength for adversarial examples
     """
     # Create save directory if it doesn't exist
     os.makedirs(save_dir, exist_ok=True)
@@ -61,17 +65,33 @@ def train_model(data_dir, num_epochs=30, batch_size=64, learning_rate=0.001, sav
             # Zero the parameter gradients
             optimizer.zero_grad()
             
-            # Forward pass
-            outputs = model(images)
-            loss = criterion(outputs, labels)
+            # Forward pass with clean images
+            outputs_clean = model(images)
+            loss_clean = criterion(outputs_clean, labels)
+            
+            # If using adversarial training, add adversarial examples
+            if adversarial_training and torch.rand(1).item() > 0.5:  # 50% chance
+                # Generate adversarial examples
+                with torch.enable_grad():
+                    adv_images = fgsm_attack(model, images, labels, epsilon=epsilon)
+                
+                # Forward pass with adversarial images
+                outputs_adv = model(adv_images)
+                loss_adv = criterion(outputs_adv, labels)
+                
+                # Combined loss (weighted equally)
+                loss = 0.5 * loss_clean + 0.5 * loss_adv
+            else:
+                # Just use clean loss
+                loss = loss_clean
             
             # Backward and optimize
             loss.backward()
             optimizer.step()
             
-            # Track metrics
+            # Track metrics (using clean outputs for metrics calculation)
             train_loss += loss.item() * images.size(0)
-            _, predicted = torch.max(outputs, 1)
+            _, predicted = torch.max(outputs_clean, 1)
             train_preds.extend(predicted.cpu().numpy())
             train_targets.extend(labels.cpu().numpy())
         

@@ -1,4 +1,3 @@
-# k:\Coding\ML\MergeConflict_PVH_ML\data_loader.py
 import os
 import torch
 from torch.utils.data import Dataset, DataLoader

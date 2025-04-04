@@ -16,6 +16,8 @@ def main():
     parser.add_argument('--test_dir1', type=str, default=None, help='Path to clean test dataset')
     parser.add_argument('--test_dir2', type=str, default=None, help='Path to adversarial test dataset')
     parser.add_argument('--output_dir', type=str, default='submissions', help='Directory to save submission files')
+    parser.add_argument('--adversarial', action='store_true', help='Use adversarial training')
+    parser.add_argument('--epsilon', type=float, default=0.03, help='Epsilon for adversarial examples')
     
     args = parser.parse_args()
     
@@ -26,7 +28,9 @@ def main():
             num_epochs=args.epochs,
             batch_size=args.batch_size,
             learning_rate=args.lr,
-            save_dir=args.weights_dir
+            save_dir=args.weights_dir,
+            adversarial_training=args.adversarial,
+            epsilon=args.epsilon
         )
     
     if args.mode in ['test', 'both']:
