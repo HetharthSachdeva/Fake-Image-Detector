@@ -119,6 +119,6 @@ def generate_submission(model_path, test_data_dir1, test_data_dir2, output_dir='
         })
         
         # Save submission file
-        output_file = os.path.join(output_dir, f"Test_{i}_results.csv")
+        output_file = os.path.join(output_dir, f"Test_{i}_results_{test_dir}.csv")
         submission_df.to_csv(output_file, index=False)
         print(f"Saved submission to {output_file}")
