@@ -147,7 +147,7 @@ Our model achieves the following performance:
 | Dataset           | Accuracy | Precision | Recall | F1 Score |
 |-------------------|----------|-----------|--------|----------|
 | Clean Test        | 0.9667   | 0.9612    | 0.9727 | 0.9669   |
-| Adversarial Test  | 0.6876   | 0.8954    | 0.6789 | 0.6871   |
+| Adversarial Test  | 0.6876   | 0.5954    | 0.6789 | 0.6871   |
 
 The model demonstrates good robustness against adversarial attacks thanks to the adversarial training approach.
 
@@ -168,7 +168,7 @@ The model demonstrates good robustness against adversarial attacks thanks to the
 - `data_loader.py` - Dataset loading and preprocessing.
 - `adversarial.py` - Adversarial attack implementations (FGSM, PGD).
 - `utils.py` - Helper functions.
-- `generate_adversarial_dataset.py` - Script to create adversarial datasets.
+- `modify.py` - Script to create adversarial datasets.
 - `requirements.txt` - Python dependencies.
 - `.gitignore` - Git ignore rules.
 - `ML_HACKATHON_PVH.pdf` - Problem statement document.
