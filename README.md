@@ -81,6 +81,7 @@ dataset/
    # On macOS/Linux:
    source venv/bin/activate
    pip install -r requirements.txt
+   pip install --index-url https://download.pytorch.org/whl/cu121
    ```
 
 ## Usage
@@ -146,7 +147,7 @@ Our model achieves the following performance:
 | Dataset           | Accuracy | Precision | Recall | F1 Score |
 |-------------------|----------|-----------|--------|----------|
 | Clean Test        | 0.9667   | 0.9612    | 0.9727 | 0.9669   |
-| Adversarial Test  | 0.8876   | 0.8954    | 0.8789 | 0.8871   |
+| Adversarial Test  | 0.6876   | 0.8954    | 0.6789 | 0.6871   |
 
 The model demonstrates good robustness against adversarial attacks thanks to the adversarial training approach.
 
