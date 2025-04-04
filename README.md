@@ -17,8 +17,6 @@ This repository contains a Convolutional Neural Network (CNN) based fake image d
     - [Generating Adversarial Datasets](#generating-adversarial-datasets)
   - [Results](#results)
   - [Project Structure](#project-structure)
-  - [Citation](#citation)
-  - [License](#license)
 
 ## Project Overview
 
@@ -173,20 +171,3 @@ The model demonstrates good robustness against adversarial attacks thanks to the
 - `.gitignore` - Git ignore rules.
 - `ML_HACKATHON_PVH.pdf` - Problem statement document.
 
-## Citation
-
-If you use this code for your research, please cite this repository:
-
-```bibtex
-@misc{fake-image-detector,
-  author = {Your Name},
-  title = {Fake Image Detector},
-  year = {2025},
-  publisher = {GitHub},
-  url = {https://github.com/yourusername/Fake-Image-Detector}
-}
-```
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
