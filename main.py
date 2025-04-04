@@ -13,10 +13,9 @@ def main():
     parser.add_argument('--lr', type=float, default=0.001, help='Learning rate')
     parser.add_argument('--weights_dir', type=str, default='weights', help='Directory to save/load model weights')
     parser.add_argument('--model_path', type=str, default=None, help='Path to the model weights (for testing)')
-    parser.add_argument('--test_dir1', type=str, default=None, help='Path to clean test dataset')
-    parser.add_argument('--test_dir2', type=str, default=None, help='Path to adversarial test dataset')
+    parser.add_argument('--test_dir', type=str, default=None, help='Path to test dataset')
     parser.add_argument('--output_dir', type=str, default='submissions', help='Directory to save submission files')
-    parser.add_argument('--adversarial', action='store_true', help='Use adversarial training')
+    parser.add_argument('--adversarial', action='store_true', help='Use adversarial testing/training')
     parser.add_argument('--epsilon', type=float, default=0.03, help='Epsilon for adversarial examples')
     
     args = parser.parse_args()
@@ -34,19 +33,21 @@ def main():
         )
     
     if args.mode in ['test', 'both']:
-        print("=== Generating Submissions ===")
+        print("=== Generating Submission ===")
         model_path = args.model_path
         if model_path is None:
             model_path = os.path.join(args.weights_dir, 'best_model.pth')
+        else:
+            model_path = os.path.join(args.weights_dir, model_path)    
             
-        test_dir1 = args.test_dir1 if args.test_dir1 else args.data_dir
-        test_dir2 = args.test_dir2 if args.test_dir2 else args.data_dir
+        test_dir = args.test_dir if args.test_dir else args.data_dir
         
         generate_submission(
             model_path=model_path,
-            test_data_dir1=test_dir1,
-            test_data_dir2=test_dir2,
-            output_dir=args.output_dir
+            test_data_dir=test_dir,
+            output_dir=args.output_dir,
+            adversarial=args.adversarial,
+            epsilon=args.epsilon
         )
 
 if __name__ == "__main__":

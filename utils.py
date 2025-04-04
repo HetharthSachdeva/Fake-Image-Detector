@@ -6,6 +6,7 @@ def save_model(model, path):
     """
     Save model weights to the specified path.
     """
+    os.makedirs(os.path.dirname(path), exist_ok=True)
     torch.save(model.state_dict(), path)
     print(f"Model saved to {path}")
 
@@ -48,9 +49,7 @@ def plot_training_metrics(train_losses, val_losses, train_accs, val_accs, save_d
     plt.close()
 
 def visualize_predictions(images, true_labels, predicted_labels, num_samples=5, save_path=None):
-    """
-    Visualize model predictions on sample images.
-    """
+
     fig, axes = plt.subplots(1, num_samples, figsize=(15, 3))
     
     for i in range(num_samples):
